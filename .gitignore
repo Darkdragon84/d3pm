@@ -7,3 +7,5 @@ wandb
 run.sh
 *.pyc
 ckpt
+*.png
+*.gif

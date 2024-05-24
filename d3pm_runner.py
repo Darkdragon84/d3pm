@@ -342,7 +342,7 @@ class D3PM(nn.Module):
 if __name__ == "__main__":
 
     N = 2  # number of classes for discretized state per pixel
-    d3pm = D3PM(DummyX0Model(1, N), 1000, num_classes=N, hybrid_loss_coeff=0.0).cuda()
+    d3pm = D3PM(DummyX0Model(1, N), 1000, num_classes=N, hybrid_loss_coeff=0.0)
     print(f"Total Param Count: {sum([p.numel() for p in d3pm.x0_model.parameters()])}")
     dataset = MNIST(
         "./data",
@@ -361,7 +361,7 @@ if __name__ == "__main__":
     d3pm.train()
 
     n_epoch = 400
-    device = "cuda"
+    device = "cpu"
 
     global_step = 0
     for i in range(n_epoch):
@@ -397,8 +397,8 @@ if __name__ == "__main__":
                 d3pm.eval()
 
                 with torch.no_grad():
-                    cond = torch.arange(0, 4).cuda() % 10
-                    init_noise = torch.randint(0, N, (4, 1, 32, 32)).cuda()
+                    cond = torch.arange(0, 4) % 10
+                    init_noise = torch.randint(0, N, (4, 1, 32, 32))
 
                     images = d3pm.sample_with_image_sequence(
                         init_noise, cond, stride=40
